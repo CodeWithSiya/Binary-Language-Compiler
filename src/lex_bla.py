@@ -72,7 +72,7 @@ def tokeniser(filename: str) -> None:
         
 if __name__ == '__main__':
     # Check if correct number of args given
-    if len(sys.argv) == 1:
+    if len(sys.argv) > 1:
         filename = sys.argv[1]
         tokeniser(filename)
     else:
