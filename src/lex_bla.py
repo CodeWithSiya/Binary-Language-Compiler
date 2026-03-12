@@ -39,31 +39,40 @@ t_D = r'D'
 def t_error(t):
     t.lexer.skip(1)
 
-# Input File Handling
-input_file = sys.argv[1]
-content = ''
-
-with open(input_file, 'r') as file:
-    content = file.read()
-
 # Lexer Initialisation
 lexer = lex.lex()
-lexer.input(content)
 
-# Output File Handling
-output_file = input_file.replace('.bla', '.tkn')
+def tokeniser(filename: str) -> None:
+    # Input File Handling
+    input_file = filename
+    content = ''
 
-with open(output_file, 'w') as file:
-    while True:
-        token = lexer.token()
-        if not token:
-            break
-        elif token.type in {'WHITESPACE', 'COMMENT'}:
-            print(f"{token.type}")
-            file.write(f"{token.type}\n")
-        elif token.type in {'EQUALS', 'LPAREN', 'RPAREN', 'A', 'S', 'M', 'D'}:
-            print(f"{token.value}")
-            file.write(f"{token.value}\n")
-        else:
-            print(f"{token.type},{token.value}")
-            file.write(f"{token.type},{token.value}\n")
+    with open(input_file, 'r') as file:
+        content = file.read()
+
+    lexer.input(content)
+
+    # Output File Handling
+    output_file = input_file.replace('.bla', '.tkn')
+
+    with open(output_file, 'w') as file:
+        while True:
+            token = lexer.token()
+            if not token:
+                break
+            elif token.type in {'WHITESPACE', 'COMMENT'}:
+                print(f"{token.type}")
+                file.write(f"{token.type}\n")
+            elif token.type in {'EQUALS', 'LPAREN', 'RPAREN', 'A', 'S', 'M', 'D'}:
+                print(f"{token.value}")
+                file.write(f"{token.value}\n")
+            else:
+                print(f"{token.type},{token.value}")
+                file.write(f"{token.type},{token.value}\n")
+        
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        filename = sys.argv[1]
+        tokeniser(filename)
+    else:
+        print('Usage: python lex_bla.py <filename>.bla')
