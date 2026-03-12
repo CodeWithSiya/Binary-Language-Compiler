@@ -71,7 +71,8 @@ def tokeniser(filename: str) -> None:
                 file.write(f"{token.type},{token.value}\n")
         
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
+    # Check if correct number of args given
+    if len(sys.argv) == 1:
         filename = sys.argv[1]
         tokeniser(filename)
     else:
