@@ -103,17 +103,17 @@ def parsing(filename: str) -> None:
     # Intialise Filtered Lexer 
     filtered_lexer = FilteredLexer(lexer)
 
-    # Parse Input Program to Create AST
+    # Parse Input Program
     ast = parser.parse(content, lexer=filtered_lexer)
 
-    # Output File Handling
+    # Output File Handling (Create AST)
     output_file = input_file.replace('.bla', '.ast')
 
     with open(output_file, 'w') as file:
         traverse(ast, file = file)
 
 def traverse(node: tuple, indent: int = 0, file = None) -> None:
-    # Base Case - Process Leaves
+    # Base Case: Process Leaves
     if not isinstance(node, tuple) and file:
         if node.startswith(('0', '1', '+', '-')):
             output = '\t' * indent + f'BINARY_LITERAL,{node}'
