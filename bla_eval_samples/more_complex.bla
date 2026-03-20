@@ -1,0 +1,7 @@
+/* doing some 
+calculations */
+val1 = 1100
+val2 = -100
+val3 = 10
+result = val3 A val1 D val2 // answer
+
