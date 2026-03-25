@@ -48,7 +48,7 @@ def p_statement(p):
     '''
     statement : ID EQUALS expression
     '''
-    p[0] = (p[2], p[1], p[3])
+    p[0] = (p[2], p[1], p[3], p.lineno(1))
 
 def p_expression(p):
     '''
@@ -89,6 +89,14 @@ def p_empty(p):
     '''
     p[0] = None
 
+# Syntactic Error Messages
+error_messages = []
+
+# Error Function
+def p_error(p):
+    message = f'parse error on line {p.lineno}'
+    error_messages.append(message)
+
 # Parser Initialisation
 parser = yacc.yacc()
 
@@ -114,13 +122,17 @@ def parsing(filename: str) -> None:
 
 def traverse(node: tuple, indent: int = 0, file = None) -> None:
     # Base Case: Process Leaves
-    if not isinstance(node, tuple) and file:
+    if not isinstance(node, tuple):
+        # Skip Line Numbers
+        if isinstance(node, int): return 
+        
         if node.startswith(('0', '1', '+', '-')):
             output = '\t' * indent + f'BINARY_LITERAL,{node}'
         else:
             output = '\t' * indent + f'ID,{node}'    
         print(output)
-        file.write(output + '\n')
+        if file:
+            file.write(output + '\n')
         return
 
     # Process Current Node

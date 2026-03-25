@@ -35,9 +35,19 @@ t_S = r'S'
 t_M = r'M'
 t_D = r'D'
 
+# Lexical Error Messages
+error_messages = []
+
 # Error Function
 def t_error(t):
+    message = f'lexical error on line {t.lexer.lineno}'
+    error_messages.append(message)
     t.lexer.skip(1)
+
+# Line Number Rule
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 
 # Lexer Initialisation
 lexer = lex.lex()
@@ -75,5 +85,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         filename = sys.argv[1]
         tokeniser(filename)
+        print(error_messages)
     else:
         print('Usage: python lex_bla.py <filename>.bla')
