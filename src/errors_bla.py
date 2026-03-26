@@ -71,7 +71,7 @@ def process(filename : str) -> None:
             print(parse_errors[0])
             return
     
-    # Initialise Parse Table
+    # Initialise Symbol Table
     symbol_table = {}
 
     # Perform Semantic Analysis
